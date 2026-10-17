@@ -1,0 +1,13 @@
+# Build output and release packages
+dist/
+*.zip
+
+# Python
+__pycache__/
+*.pyc
+
+# Backups, temp files and exported settings
+*.bak
+*.tmp
+*_backup*/
+qclick2_settings_*.json

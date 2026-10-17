@@ -1,0 +1,19 @@
+schema_version = "1.0.0"
+id = "qclick2"
+version = "1.0.0"
+name = "Q&Click"
+tagline = "Linked quick favorites wheels with a sidebar drag editor"
+maintainer = "FreedomWalk (Harry_Yeh)"
+type = "add-on"
+tags = ["User Interface"]
+blender_version_min = "4.5.0"
+blender_version_max = "5.3.0"
+platforms = ["windows-x64"]
+license = ["SPDX:GPL-3.0-or-later"]
+copyright = ["2026 FreedomWalk (Harry_Yeh)"]
+
+[permissions]
+files = "Save wheel layouts, export/import settings, back up preferences"
+
+[build]
+paths_exclude_pattern = ["__pycache__/", "*.pyc", "*.tmp", "*.bak"]
