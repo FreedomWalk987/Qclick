@@ -345,8 +345,8 @@ def _write_text_atomic(path, text):
                 pass
 
 
-def export_settings(target, version_text=""):
-    """Write every mode's wheels to a standalone JSON file."""
+def export_settings(target, version_text="", extra=None):
+    """Write every mode's wheels (plus any `extra` top-level sections) to a standalone JSON file."""
     profiles = _load_profiles()
     if _LOAD_ERROR:
         return (False, T("The current settings cannot be read, so they cannot be exported; restore from a backup first"))
@@ -366,6 +366,7 @@ def export_settings(target, version_text=""):
         "exported_by": ("Q&Click " + str(version_text or "")).strip(),
         "exported_at": datetime.now().isoformat(timespec="seconds"),
     }
+    payload.update(extra or {})
     try:
         target.parent.mkdir(parents=True, exist_ok=True)
         _write_text_atomic(target, json.dumps(payload, ensure_ascii=False, indent=1, allow_nan=False))

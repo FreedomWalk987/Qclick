@@ -3,6 +3,16 @@
 All notable changes to Q&Click. Versions follow `MAJOR.MINOR.PATCH`:
 PATCH fixes bugs, MINOR adds features, MAJOR breaks compatibility.
 
+## 1.1.0
+
+- Export now includes Blender's Quick Favorites (every menu and item,
+  operator settings included) alongside the wheels; an "Include Quick
+  Favorites" option is on by default.
+- Import brings them back: Quick Favorites of each menu in the file are
+  replaced, the preferences file is backed up first
+  (qclick2_backups\userpref_before_qclick2_import_*.blend), saved, and
+  reloaded so Blender owns every item. "Replace All" also empties menus that
+  are not in the file. Files without Quick Favorites import as before.
 ## 1.0.0 — first public release
 
 - Hold-Q quick-favorites wheel for the 3D Viewport and UV/Image Editor, one

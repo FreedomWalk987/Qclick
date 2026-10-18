@@ -3,7 +3,7 @@
 Hold **Q**, flick toward an action, release. Q&Click turns Blender's Quick Favorites into a
 radial wheel — one layout per mode — and gives you a drag-and-drop sidebar editor to arrange it.
 
-- Version: 1.0.0 ([download from Releases](../../releases/latest))
+- Version: 1.1.0 ([download from Releases](../../releases/latest))
 - Blender 4.5 – 5.2 (tested on 5.0.1), **Windows 64-bit only**
 - Interface: English and Traditional Chinese (follows Blender's language)
 - License: GPL-3.0-or-later, free and open source
@@ -21,8 +21,8 @@ radial wheel — one layout per mode — and gives you a drag-and-drop sidebar e
   onto the eight slots; right-click to rename.
 - **Manage Blender's Quick Favorites**: reorder and remove native Quick Favorites from the sidebar.
 - **Action library**: capture a shortcut or type an operator ID, without adding it to Quick Favorites first.
-- **Settings export/import**: move to another computer or share with colleagues; a backup is made
-  before every import.
+- **Settings export/import**: wheels, groups, action library **and Blender's Quick Favorites** in one
+  file; move to another computer or share with colleagues. A backup is made before every import.
 
 ## Install
 
@@ -30,8 +30,8 @@ Install either file; they work the same:
 
 | File | Use it if |
 |---|---|
-| `QClick-1.0.0-legacy.zip` | you install add-ons the traditional way |
-| `QClick-1.0.0-extension.zip` | you install Blender Extensions |
+| `QClick-1.1.0-legacy.zip` | you install add-ons the traditional way |
+| `QClick-1.1.0-extension.zip` | you install Blender Extensions |
 
 1. Blender → Edit → Preferences → Add-ons (or Extensions).
 2. Top-right menu → **Install from Disk**, pick the zip.
@@ -54,7 +54,7 @@ To force English or Chinese, change **Interface Language** in Q&Click's add-on p
 ## Good to know
 
 - Blender has no Python API for editing Quick Favorites, so Q&Click **reads and writes Blender's
-  internal data** to reorder and remove native favorites. Every edit first checks that the data
+  internal data** to reorder, remove and import native favorites. Every edit first checks that the data
   layout matches the running Blender, and refuses if it does not.
 - Before the first change to native Quick Favorites, your preferences are backed up to
   `%APPDATA%\Blender Foundation\Blender\<version>\config\qclick2_backups\` (newest 10 kept).

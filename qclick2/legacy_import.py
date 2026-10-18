@@ -14,7 +14,7 @@ from bpy.app.handlers import persistent
 from bpy.props import BoolProperty, EnumProperty, StringProperty
 from bpy.types import Operator, Panel
 
-from . import native_bridge as bridge, persistence, runtime, shortcuts
+from . import favorites_io, native_bridge as bridge, persistence, runtime, shortcuts
 from .i18n import T
 
 _REGISTERED = False
@@ -528,8 +528,22 @@ def _default_export_path():
     return str(folder / f"qclick2_settings_{datetime.now():%Y%m%d}.json")
 
 
+def _file_favorites(filepath):
+    """The quick_favorites section of an exported file: (menus or None, error)."""
+    try:
+        source = Path(filepath)
+        if not source.is_file() or source.stat().st_size > persistence.EXPORT_MAX_BYTES:
+            return None, ""
+        payload = json.loads(source.read_text(encoding="utf-8"))
+        if not isinstance(payload, dict):
+            return None, ""
+        return favorites_io.normalize_favorites(payload.get(favorites_io.FORMAT_KEY)), ""
+    except Exception as exc:
+        return None, str(exc)
+
+
 class QCLICK2_OT_export_settings(Operator):
-    """Save every mode's wheels, sub-wheels, groups and action library to a file"""
+    """Save every mode's wheels, sub-wheels, groups, action library and Blender Quick Favorites to a file"""
     bl_idname = "qclick2.export_settings"
     bl_label = "Export Wheel Settings"
     bl_options = {"INTERNAL"}
@@ -537,6 +551,7 @@ class QCLICK2_OT_export_settings(Operator):
     filepath: StringProperty(subtype="FILE_PATH", options={"SKIP_SAVE"})
     filter_glob: StringProperty(default="*.json", options={"HIDDEN"})
     check_existing: BoolProperty(default=True, options={"HIDDEN"})
+    include_favorites: BoolProperty(name="Include Quick Favorites", default=True)
 
     def invoke(self, context, _event):
         if not self.filepath:
@@ -544,8 +559,21 @@ class QCLICK2_OT_export_settings(Operator):
         context.window_manager.fileselect_add(self)
         return {"RUNNING_MODAL"}
 
+    def draw(self, _context):
+        self.layout.prop(self, "include_favorites", text=T("Include Quick Favorites"))
+
     def execute(self, _context):
-        ok, message = persistence.export_settings(self.filepath)
+        extra, note = {}, ""
+        if self.include_favorites:
+            menus, error = favorites_io.export_favorites()
+            if menus is None:
+                note = T("; Quick Favorites could not be read and were left out: {error}", error=error)
+            else:
+                extra[favorites_io.FORMAT_KEY] = menus
+                note = T("; {count} Quick Favorite(s) included", count=favorites_io.favorites_count(menus))
+        ok, message = persistence.export_settings(self.filepath, extra=extra)
+        if ok:
+            message += note
         shortcuts.status(message)
         self.report({"INFO"} if ok else {"ERROR"}, message)
         return {"FINISHED"} if ok else {"CANCELLED"}
@@ -564,6 +592,7 @@ class QCLICK2_OT_import_settings(Operator):
         items=(("MERGE", "Merge: replace only the modes in the file", "Modes not in the file stay as they are"),
                ("REPLACE", "Replace All", "Swap the whole settings file for the file's contents")),
         default="MERGE", options={"SKIP_SAVE"})
+    import_favorites: BoolProperty(name="Import Quick Favorites", default=True, options={"SKIP_SAVE"})
 
     def invoke(self, context, _event):
         context.window_manager.fileselect_add(self)
@@ -579,6 +608,19 @@ class QCLICK2_OT_import_settings(Operator):
             for key in sorted(incoming)[:8]:
                 area, _sep, mode = key.partition("|")
                 layout.label(text=f"· {persistence.mode_label(mode)} ({persistence.area_label(area)})")
+            favorites, favorites_error = _file_favorites(self.filepath)
+            if favorites is not None:
+                layout.prop(self, "import_favorites",
+                            text=T("Import {count} Quick Favorite(s)", count=favorites_io.favorites_count(favorites)))
+                if self.import_favorites:
+                    layout.label(text=T("Quick Favorites in these menus are replaced"), icon="INFO")
+            elif favorites_error:
+                box = layout.box()
+                box.alert = True
+                for line in _wrap_label(T("Quick Favorites in the file are invalid: {error}", error=favorites_error), 28):
+                    box.label(text=line)
+            else:
+                layout.label(text=T("The file has no Quick Favorites"), icon="INFO")
         elif error:
             box = layout.box()
             box.alert = True
@@ -588,7 +630,18 @@ class QCLICK2_OT_import_settings(Operator):
         layout.label(text=T("use Restore from Backup to undo."))
 
     def execute(self, _context):
+        favorites, favorites_error = _file_favorites(self.filepath) if self.import_favorites else (None, "")
+        if favorites_error:
+            message = T("Quick Favorites in the file are invalid: {error}", error=favorites_error)
+            shortcuts.status(message)
+            self.report({"ERROR"}, message)
+            return {"CANCELLED"}
         ok, message = persistence.import_settings(self.filepath, self.mode)
+        if ok and favorites is not None:
+            favorites_ok, favorites_message = favorites_io.import_favorites(favorites, replace_all=self.mode == "REPLACE")
+            if favorites_message:
+                message += T("; ") + favorites_message
+            ok = favorites_ok
         shortcuts.status(message)
         self.report({"INFO"} if ok else {"ERROR"}, message)
         from . import editor

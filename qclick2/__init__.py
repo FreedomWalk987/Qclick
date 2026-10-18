@@ -24,7 +24,7 @@ if _previous_registration is not None:
     if _previous_registration.cleanups:
         raise RuntimeError("Qclick reload aborted because cleanup is incomplete")
 
-for _submodule_name in ("i18n_zh", "i18n", "runtime", "native_bridge", "dispatch", "persistence", "shortcuts", "commands", "repeat_policy", "editor", "pie", "groups", "wheel", "legacy_import"):
+for _submodule_name in ("i18n_zh", "i18n", "runtime", "native_bridge", "dispatch", "persistence", "shortcuts", "commands", "repeat_policy", "editor", "pie", "groups", "wheel", "favorites_io", "legacy_import"):
     _cached = _sys.modules.get(f"{__name__}.{_submodule_name}")
     if _cached is not None:
         _importlib.reload(_cached)
