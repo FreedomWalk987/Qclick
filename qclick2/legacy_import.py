@@ -613,7 +613,16 @@ class QCLICK2_OT_import_settings(Operator):
                 layout.prop(self, "import_favorites",
                             text=T("Import {count} Quick Favorite(s)", count=favorites_io.favorites_count(favorites)))
                 if self.import_favorites:
-                    layout.label(text=T("Quick Favorites in these menus are replaced"), icon="INFO")
+                    box = layout.box()
+                    box.alert = True
+                    box.label(text=T("Your Quick Favorites will be overwritten"), icon="ERROR")
+                    warning = (T("Every Quick Favorite of yours, including menus not in the file, is replaced by the file's.")
+                               if self.mode == "REPLACE" else
+                               T("Quick Favorites in each menu the file contains are replaced by the file's; other menus are kept."))
+                    for line in _wrap_label(warning, 28):
+                        box.label(text=line)
+                    for line in _wrap_label(T("Preferences are backed up to qclick2_backups first. Untick above to keep your Quick Favorites."), 28):
+                        box.label(text=line)
             elif favorites_error:
                 box = layout.box()
                 box.alert = True

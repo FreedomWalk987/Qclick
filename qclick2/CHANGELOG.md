@@ -3,6 +3,12 @@
 All notable changes to Q&Click. Versions follow `MAJOR.MINOR.PATCH`:
 PATCH fixes bugs, MINOR adds features, MAJOR breaks compatibility.
 
+## 1.1.1
+
+- The import dialog now shows a clear red warning that Quick Favorites will be
+  overwritten, says which menus (only those in the file, or all with
+  "Replace All"), and how to keep them.
+
 ## 1.1.0
 
 - Export now includes Blender's Quick Favorites (every menu and item,

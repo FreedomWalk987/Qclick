@@ -3,7 +3,7 @@
 Hold **Q**, flick toward an action, release. Q&Click turns Blender's Quick Favorites into a
 radial wheel — one layout per mode — and gives you a drag-and-drop sidebar editor to arrange it.
 
-- Version: 1.1.0 ([download from Releases](../../releases/latest))
+- Version: 1.1.1 ([download from Releases](../../releases/latest))
 - Blender 4.5 – 5.2 (tested on 5.0.1), **Windows 64-bit only**
 - Interface: English and Traditional Chinese (follows Blender's language)
 - License: GPL-3.0-or-later, free and open source
@@ -30,8 +30,8 @@ Install either file; they work the same:
 
 | File | Use it if |
 |---|---|
-| `QClick-1.1.0-legacy.zip` | you install add-ons the traditional way |
-| `QClick-1.1.0-extension.zip` | you install Blender Extensions |
+| `QClick-1.1.1-legacy.zip` | you install add-ons the traditional way |
+| `QClick-1.1.1-extension.zip` | you install Blender Extensions |
 
 1. Blender → Edit → Preferences → Add-ons (or Extensions).
 2. Top-right menu → **Install from Disk**, pick the zip.

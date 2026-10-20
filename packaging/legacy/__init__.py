@@ -12,7 +12,7 @@ Favorites itself and persists its own per-mode wheel layouts.
 bl_info = {
     "name": "Q&Click",
     "author": "FreedomWalk (Harry_Yeh)",
-    "version": (1, 1, 0),
+    "version": (1, 1, 1),
     "blender": (4, 5, 0),
     "location": "3D Viewport / UV Editor > Sidebar > Q&Click; hold Q",
     "description": "Hold Q for a quick-favorites wheel, arranged in a drag-and-drop sidebar editor",

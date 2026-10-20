@@ -30,8 +30,8 @@ Install either file; they work the same:
 
 | File | Use it if |
 |---|---|
-| `QClick-1.1.0-legacy.zip` | you install add-ons the traditional way |
-| `QClick-1.1.0-extension.zip` | you install Blender Extensions |
+| `QClick-1.1.1-legacy.zip` | you install add-ons the traditional way |
+| `QClick-1.1.1-extension.zip` | you install Blender Extensions |
 
 1. Blender → Edit → Preferences → Add-ons (or Extensions).
 2. Top-right menu → **Install from Disk**, pick the zip.
