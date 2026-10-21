@@ -10,6 +10,24 @@ radial wheel — one layout per mode — and gives you a drag-and-drop sidebar e
 
 [繁體中文說明在下方](#繁體中文)
 
+## Demo
+
+**Hold Q, flick, release · Q + left click / double-tap Q to repeat** — 按住 Q 滑動放開；Q＋左鍵或連按兩下 Q 重複上一步
+
+![Hold Q wheel and repeat last](docs/q-click-drag-repeat.gif)
+
+**Drag to swap slots** — 拖移交換槽位
+
+![Drag to swap slots](docs/drag-swap-slots.gif)
+
+**Groups** — 群組
+
+![Groups](docs/groups.gif)
+
+**Sub-wheels** — 子輪盤
+
+![Sub-wheels](docs/sub-wheels.gif)
+
 ## Features
 
 - **Wheel**: hold Q in the 3D Viewport or UV/Image Editor. Eight directions, a separate layout for
